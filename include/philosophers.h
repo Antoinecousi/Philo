@@ -6,7 +6,7 @@
 /*   By: acousini <acousini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 15:06:31 by acousini          #+#    #+#             */
-/*   Updated: 2022/01/26 14:24:29 by acousini         ###   ########.fr       */
+/*   Updated: 2022/01/26 16:53:27 by acousini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ typedef struct s_philo
 
 typedef struct s_base
 {
-	int					t_to_eat;
+	int					tte;
 	int					is_dead;
-	int					t_to_sleep;
-	int					t_to_die;
+	int					tts;
+	int					ttd;
 	int					nb_phils;
 	int					printed_death;
 	int					nb_eats;
@@ -50,7 +50,8 @@ typedef struct s_base
 }				t_base;
 
 // inits
-void	fill_base(t_base *base, char **str);
+int		init_philosophers(t_base *base);
+int		fill_base(t_base *base, char **str);
 
 // miscellaneous
 void	ft_putstr(char *str);

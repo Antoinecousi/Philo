@@ -6,31 +6,20 @@
 /*   By: acousini <acousini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 18:56:30 by acousini          #+#    #+#             */
-/*   Updated: 2022/01/25 19:28:40 by acousini         ###   ########.fr       */
+/*   Updated: 2022/01/26 17:08:14 by acousini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	init_fork(t_base *base, int i)
+int	start_time(t_base *base)
 {
-	pthread_mutex_t	*fork;
-
-	fork = malloc(sizeof(pthread_mutex_t));
-	if (!fork)
-		return (destroy(base, -3, "Malloc error. Exit\n"));
-	if (pthread_mutex_init(fork, NULL) != 0)
-		return (-1);
-	base->philosophers[i].left_fork = fork;
-	if (i > 0)
-		base->philosophers[i - 1].right_fork = base->philosophers[i].left_fork;
-	if (i == base->nb_phils - 1)
-		base->philosophers[i].right_fork = base->philosophers[0].left_fork;
-	base->inited += 1;
-	return (0);
+	gettimeofday(&base->start, NULL);
+	if (!base->start.tv_sec)
+		return (1);
 }
 
-int	init_philosophers(t_base *base)
+int	init_philosopher(t_base *base)
 {
 	t_philo	*phil;
 	int		i;
@@ -55,14 +44,14 @@ int	fill_base(t_base *base, char **str)
 	base->is_dead = 0;
 	if (base->nb_phils < 1)
 		return (clean_base(base, -2, "Wrong number of philosophers. Exit\n"));
-	base->t_to_die = ft_atoi(str[2]);
-	if (base->t_to_die <= 0)
+	base->ttd = ft_atoi(str[2]);
+	if (base->ttd <= 0)
 		return (clean_base(base, -2, "Wrong value of time to die. Exit\n"));
-	base->t_to_eat = ft_atoi(str[3]);
-	if (base->t_to_eat <= 0)
+	base->tte = ft_atoi(str[3]);
+	if (base->tte <= 0)
 		return (clean_base(base, -2, "Wrong value of time to eat. Exit\n"));
-	base->t_to_sleep = ft_atoi(str[4]);
-	if (base->t_to_sleep <= 0)
+	base->tts = ft_atoi(str[4]);
+	if (base->tts <= 0)
 		return (clean_base(base, -2, "Wrong value of time to sleep. Exit\n"));
 	if (str + 5)
 	{
@@ -73,7 +62,7 @@ int	fill_base(t_base *base, char **str)
 	else
 		base->nb_eats = -1;
 	base->is_dead = -1;
-	init_philosophers(base);
+	init_philosopher(base);
 	base->start = now();
 	return (0);
 }
