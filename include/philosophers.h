@@ -6,7 +6,7 @@
 /*   By: acousini <acousini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 15:06:31 by acousini          #+#    #+#             */
-/*   Updated: 2022/01/25 19:30:47 by acousini         ###   ########.fr       */
+/*   Updated: 2022/01/26 14:24:29 by acousini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,7 @@
 # include <sys/time.h>
 # include <stdlib.h>
 
-
 # define USAGE		100
-
 
 typedef struct s_philo
 {
@@ -33,7 +31,6 @@ typedef struct s_philo
 	pthread_mutex_t		*right_fork;
 	pthread_t			thread_id;
 }				t_philo;
-
 
 typedef struct s_base
 {
@@ -52,8 +49,13 @@ typedef struct s_base
 	t_philo				*philosophers;
 }				t_base;
 
-
+// inits
 void	fill_base(t_base *base, char **str);
 
+// miscellaneous
+void	ft_putstr(char *str);
+void	ft_putnbr(int n);
+void	ft_putchar(char c);
+int		ft_strlen(char *str);
 
 #endif

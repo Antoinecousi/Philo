@@ -6,13 +6,13 @@
 /*   By: acousini <acousini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 15:13:43 by acousini          #+#    #+#             */
-/*   Updated: 2022/01/25 19:29:05 by acousini         ###   ########.fr       */
+/*   Updated: 2022/01/26 14:24:57 by acousini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	*routine()
+void	*routine(void)
 {
 	printf("Test fromp threads\n");
 	sleep(1);
