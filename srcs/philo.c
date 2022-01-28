@@ -6,16 +6,40 @@
 /*   By: acousini <acousini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 15:13:43 by acousini          #+#    #+#             */
-/*   Updated: 2022/01/26 19:54:00 by acousini         ###   ########.fr       */
+/*   Updated: 2022/01/28 20:03:17 by acousini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
+int	is_dead(t_philo *philo)
+{
+	if (philo->base->is_dead == 1)
+		return (philo->id);
+	if (philo->last_meal + philo->base->ttd >= time_now_in_ms())
+	{
+		philo->base->is_dead = philo->id;
+		return (philo->id);
+	}
+	return (0);
+}
+
+int	can_eat(t_philo *philo)
+{
+	if (is_dead(philo))
+}
+
 void	routine(t_philo *philo)
 {
-	if (philo->left_fork && philo->right_fork)
-		
+	while (philo->base->is_dead == 0)
+	{
+		if (can_eat(philo))
+		{
+			philo_start_eat(philo);
+			philo_start_sleep(philo);
+			philo_start_thinking(philo);
+		}
+	}
 }
 
 int	init_each_philo(t_base *base, int id)
@@ -28,7 +52,7 @@ int	init_each_philo(t_base *base, int id)
 	base->philosophers[id].base = base;
 	reader = pthread_create(&(base->philosophers[id].thread_id),
 			NULL, &routine, &(base->philosophers[id]));
-	sleep_time_in_ms(1);
+	wait_in_ms(1);
 	return (reader);
 }
 
@@ -66,7 +90,6 @@ int	fill_philo(t_base *base)
 	while (++id < base->nb_phils)
 		if (pthread_join(base->philosophers[id].thread_id, NULL) == -1)
 			return (clean_base(base, 2, "pthread_join error. Exit.\n"));
-	
 }
 
 int	main(int argc, char **argv)

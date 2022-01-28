@@ -4,8 +4,8 @@ NAME			=	philo
 SRCS			=	srcs/philo.c \
 					srcs/init.c \
 					srcs/miscellaneous.c \
+					srcs/time.c \
 					#srcs/main.c \
-					srcs/actions.c \
 					srcs/parser.c \
 					srcs/utils.c
 

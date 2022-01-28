@@ -6,7 +6,7 @@
 /*   By: acousini <acousini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 19:25:31 by acousini          #+#    #+#             */
-/*   Updated: 2022/01/26 20:02:05 by acousini         ###   ########.fr       */
+/*   Updated: 2022/01/27 18:12:05 by acousini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,24 +29,18 @@ unsigned long long int	time_now_in_ms(void)
 		+ (long long int)now.tv_usec / 1000);
 }
 
-// unsigned long long int	time_between()
-
-// unsigned long long int	what_time_is_it_now(struct timeval *time)
-// {
-// 	return ((long long int)(long long int)time->tv_sec * 1000
-// 		+ (long long int)time->tv_usec / 1000);
-// }
-
-int wait_until(int ms, struct timeval *time)
+unsigned long long int	time_of_arg_in_ms(struct timeval time)
 {
-
-	while ()
+	return ((long long int)(long long int)time.tv_sec * 1000
+		+ (long long int)time.tv_usec / 1000);
 }
 
-int	sleep_time_in_ms(int ms)
+void	wait_in_ms(unsigned long long int ms)
 {
-	struct timeval beginning;
-	
-	gettimeofday(&beginning, NULL);
-	beginning
+	unsigned long long int	until;
+
+	until = time_of_arg_in_ms(time_now()) + ms;
+	while (time_of_arg_in_ms(time_now()) < until)
+	{
+	}
 }
