@@ -5,9 +5,9 @@ SRCS			=	srcs/philo.c \
 					srcs/init.c \
 					srcs/miscellaneous.c \
 					srcs/time.c \
+					srcs/output.c \
+					srcs/actions.c \
 					#srcs/main.c \
-					srcs/parser.c \
-					srcs/utils.c
 
 OBJS			=	${SRCS:.c=.o}
 
@@ -15,7 +15,7 @@ HEAD			=	-I include
 
 CC				=	clang
 
-CFLAGS			=	-Wall -Werror -Wextra #-g3 -fsanitize=thread
+CFLAGS			=	-Wall -Werror -Wextra -g3 #-fsanitize=thread
 
 .c.o			:
 					${CC} ${CFLAGS} ${HEAD} -c $< -o ${<:.c=.o}

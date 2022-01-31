@@ -6,11 +6,16 @@
 /*   By: acousini <acousini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 19:25:31 by acousini          #+#    #+#             */
-/*   Updated: 2022/01/27 18:12:05 by acousini         ###   ########.fr       */
+/*   Updated: 2022/01/31 19:49:20 by acousini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philosophers.h>
+
+unsigned long long int	time_from_beginning(unsigned long long int start)
+{
+	return (time_now_in_ms() - start);
+}
 
 struct timeval	time_now(void)
 {
@@ -42,5 +47,6 @@ void	wait_in_ms(unsigned long long int ms)
 	until = time_of_arg_in_ms(time_now()) + ms;
 	while (time_of_arg_in_ms(time_now()) < until)
 	{
+		usleep(1);
 	}
 }
