@@ -7,7 +7,9 @@ SRCS			=	srcs/philo.c \
 					srcs/time.c \
 					srcs/output.c \
 					srcs/actions.c \
-					#srcs/main.c \
+					srcs/forks.c \
+					srcs/routine_monitor.c \
+					srcs/utils.c
 
 OBJS			=	${SRCS:.c=.o}
 

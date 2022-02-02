@@ -6,7 +6,7 @@
 /*   By: acousini <acousini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 15:06:31 by acousini          #+#    #+#             */
-/*   Updated: 2022/01/31 19:21:04 by acousini         ###   ########.fr       */
+/*   Updated: 2022/02/02 19:33:14 by acousini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ typedef struct s_philo
 	int						id;
 	int						meals_count;
 	unsigned long long int	last_meal;
+	int						alive;
 	t_base					*base;
+	pthread_mutex_t			meal_check;
+	pthread_mutex_t			alive_check;
 	pthread_mutex_t			*left_fork;
 	pthread_mutex_t			*right_fork;
 	pthread_t				thread_id;
@@ -47,6 +50,8 @@ typedef struct s_base
 	int						inited;
 	unsigned long long int	start;
 	int						malloced;
+	int						running;
+	pthread_mutex_t			running_check;
 	pthread_mutex_t			screen_lock;
 	pthread_mutex_t			die_lock;
 	t_philo					*philosophers;
@@ -57,7 +62,10 @@ void					*routine(void *philosopher);
 void					philo_start_eat(t_philo *philo);
 void					philo_start_thinking(t_philo *philo);
 void					philo_start_sleep(t_philo *philo);
+void					unlock_forks(t_philo *philo);
+int						take_forks(t_philo *philo);
 int						can_eat(t_philo *philo);
+int						is_running(t_philo *philo);
 int						is_dead(t_philo *philo);
 
 // output
@@ -71,6 +79,10 @@ unsigned long long int	time_of_arg_in_ms(struct timeval time);
 unsigned long long int	time_now_in_ms(void);
 struct timeval			time_now(void);
 unsigned long long int	time_from_beginning(unsigned long long int start);
+long long int			utc_time_in_usec(struct timeval time);
+struct timeval			now(void);
+long long int			elapsed_time(struct timeval start);
+void					sleep_time(int time);
 
 // inits
 int						init_each_philo(t_base *base, int id);

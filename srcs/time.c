@@ -6,7 +6,7 @@
 /*   By: acousini <acousini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 19:25:31 by acousini          #+#    #+#             */
-/*   Updated: 2022/01/31 19:49:20 by acousini         ###   ########.fr       */
+/*   Updated: 2022/02/02 19:14:41 by acousini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,6 @@ void	wait_in_ms(unsigned long long int ms)
 	until = time_of_arg_in_ms(time_now()) + ms;
 	while (time_of_arg_in_ms(time_now()) < until)
 	{
-		usleep(1);
+		usleep(1000);
 	}
 }
