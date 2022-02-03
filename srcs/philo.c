@@ -6,7 +6,7 @@
 /*   By: acousini <acousini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 15:13:43 by acousini          #+#    #+#             */
-/*   Updated: 2022/02/01 14:58:56 by acousini         ###   ########.fr       */
+/*   Updated: 2022/02/03 14:04:20 by acousini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,13 @@ int	main(int argc, char **argv)
 	base = malloc(sizeof(t_base));
 	if (!base)
 		return (write(1, "Couldn't malloc struct in main. Exit\n", 38));
-	if (fill_base(base, argv + 1, argc))
-		return (1);
 	pthread_mutex_init(&base->screen_lock, NULL);
 	pthread_mutex_init(&base->die_lock, NULL);
-	if (fill_philo(base))
-		return (2);
+	if (fill_base(base, argv + 1, argc))
+		return (1);
+	// if (fill_philo(base))
+	// 	return (2);
 	write(1, "SUCCESS", 8);
-	// init_pthread();
+	clean_base(base, 2, " SUCCESS  FRR");
 	return (0);
 }

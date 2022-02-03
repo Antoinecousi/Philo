@@ -6,7 +6,7 @@
 /*   By: acousini <acousini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 15:06:31 by acousini          #+#    #+#             */
-/*   Updated: 2022/02/02 19:33:14 by acousini         ###   ########.fr       */
+/*   Updated: 2022/02/03 12:43:13 by acousini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ long long int			elapsed_time(struct timeval start);
 void					sleep_time(int time);
 
 // inits
-int						init_each_philo(t_base *base, int id);
+int						init_each_philo(t_philo *philo, int id, t_base *base);
 int						init_fork(t_base *base, int i);
 int						fill_philo(t_base *base);
 int						init_philosopher(t_base *base);

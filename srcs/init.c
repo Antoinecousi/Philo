@@ -6,23 +6,24 @@
 /*   By: acousini <acousini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 18:56:30 by acousini          #+#    #+#             */
-/*   Updated: 2022/02/02 19:00:57 by acousini         ###   ########.fr       */
+/*   Updated: 2022/02/03 14:53:09 by acousini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	init_each_philo(t_base *base, int id)
+int	init_each_philo(t_philo *philo, int id, t_base *base)
 {
-	int		reader;
-
-	base->printed_death = 0;
-	base->philosophers[id].last_meal = 0;
-	base->philosophers[id].meals_count = 0;
-	base->philosophers[id].base = base;
-	reader = pthread_create(&(base->philosophers[id].thread_id),
-			NULL, &routine, &(base->philosophers[id]));
-	return (reader);
+	philo->id = id + 1;
+	philo->alive = 1;
+	philo->base = base;
+	philo->meals_count = 0;
+	philo->last_meal = 0;
+	if (pthread_mutex_init(&philo->meal_check, NULL))
+		return (1);
+	if (pthread_mutex_init(&philo->alive_check, NULL))
+		return (1);
+	return (0);
 }
 
 int	fill_philo(t_base *base)
@@ -32,13 +33,7 @@ int	fill_philo(t_base *base)
 	id = -1;
 	while (++id < base->nb_phils)
 		if (init_fork(base, id))
-			return (clean_base(base, 2, "init fork error. Exit.\n"));	
-	id = -1;
-	while (++id < base->nb_phils)
-	{
-		if (init_each_philo(base, id))
-			return (clean_base(base, 2, "init_each_philo error. Exit.\n"));
-	}
+			return (clean_base(base, 2, "init fork error. Exit.\n"));
 	id = -1;
 	while (++id < base->nb_phils)
 		if (pthread_join(base->philosophers[id].thread_id, NULL) == -1)
@@ -46,7 +41,7 @@ int	fill_philo(t_base *base)
 	return (0);
 }
 
-int	init_philosopher(t_base *base)
+int	init_philosophers(t_base *base)
 {
 	t_philo	*phil;
 	int		i;
@@ -54,21 +49,37 @@ int	init_philosopher(t_base *base)
 	i = -1;
 	phil = malloc(sizeof(t_philo) * base->nb_phils);
 	if (!phil)
-		return (clean_base(base, 2, "Malloc error. Exit\n"));
+		return (1);
 	base->malloced = 1;
 	base->philosophers = phil;
+	base->start = time_now_in_ms();
+	base->inited = 1;
+	while (++i < base->nb_phils)
+		init_fork(base, i);
+	i = -1;
 	while (++i < base->nb_phils)
 	{
-		base->philosophers[i].base = base;
-		base->philosophers[i].id = i + 1;
-		base->philosophers[i].alive = 1;
+		if (init_each_philo(&base->philosophers[i], i, base))
+			return (1);
+		if (pthread_create(&base->philosophers[i].thread_id, NULL, routine,
+				(void *)&base->philosophers[i]))
+			return (1);
+		usleep(20);
 	}
+	i = -1;
+	while (++i < base->nb_phils)
+		pthread_join(base->philosophers[i].thread_id, NULL);
 	return (0);
 }
 
 int	fill_base(t_base *base, char **str, int i)
 {
-
+	if (pthread_mutex_init(&base->running_check, NULL) != 0)
+		return (1);
+	if (pthread_mutex_init(&base->screen_lock, NULL) != 0)
+		return (1);
+	if (pthread_mutex_init(&base->die_lock, NULL) != 0)
+		return (1);
 	base->nb_phils = ft_atoi(str[0]);
 	base->is_dead = 0;
 	if (base->nb_phils < 1)
@@ -86,12 +97,13 @@ int	fill_base(t_base *base, char **str, int i)
 	{
 		base->nb_eats = ft_atoi(str[4]);
 		if (base->nb_eats <= 0)
-			return (clean_base(base, -2, "Wrong value of meals needed. Exit"));
+			return (clean_base(base, -2, "Wrong value of meals needed. Exit\n"));
 	}
 	else
 		base->nb_eats = -1;
 	base->running = 1;
-	base->start = time_now_in_ms();
-	init_philosopher(base);
+	base->printed_death = 0;
+	if (init_philosophers(base))
+		return (clean_base(base, -2, "Problem init phils. Exit\n"));
 	return (0);
 }
