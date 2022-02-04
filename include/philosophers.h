@@ -6,7 +6,7 @@
 /*   By: acousini <acousini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 15:06:31 by acousini          #+#    #+#             */
-/*   Updated: 2022/02/04 21:12:27 by acousini         ###   ########.fr       */
+/*   Updated: 2022/02/04 21:14:21 by acousini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,12 +90,12 @@ void					sleep_time(int time);
 // inits
 int						init_each_philo(t_philo *philo, int id, t_base *base);
 int						init_fork(t_base *base, int i);
-int						fill_philo(t_base *base);
+void					fill_philo(t_base *base);
 int						init_philosophers(t_base *base, int i);
 void					fill_base(t_base *base, char **str, int i);
 
 // miscellaneous
-int						clean_base(t_base *base, int error, char *str);
+void					clean_base(t_base *base, int error, char *str);
 unsigned long long int	ft_atoi(const char *str);
 void					ft_putstr(char *str);
 void					ft_putnbr(int n);

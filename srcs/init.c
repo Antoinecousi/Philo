@@ -6,7 +6,7 @@
 /*   By: acousini <acousini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 18:56:30 by acousini          #+#    #+#             */
-/*   Updated: 2022/02/04 21:12:46 by acousini         ###   ########.fr       */
+/*   Updated: 2022/02/04 21:14:17 by acousini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	init_each_philo(t_philo *philo, int id, t_base *base)
 	return (0);
 }
 
-int	fill_philo(t_base *base)
+void	fill_philo(t_base *base)
 {
 	int		id;
 
@@ -38,7 +38,6 @@ int	fill_philo(t_base *base)
 	while (++id < base->nb_phils)
 		if (pthread_join(base->philosophers[id].thread_id, NULL) == -1)
 			return (clean_base(base, 2, "pthread_join error. Exit.\n"));
-	return (0);
 }
 
 int	init_philosophers(t_base *base, int i)

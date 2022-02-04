@@ -6,7 +6,7 @@
 /*   By: acousini <acousini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 15:13:43 by acousini          #+#    #+#             */
-/*   Updated: 2022/02/04 21:12:40 by acousini         ###   ########.fr       */
+/*   Updated: 2022/02/04 21:13:39 by acousini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	clean_each_philosopher(t_philo *philo)
 	free(philo->left_fork);
 }
 
-int	clean_base(t_base *base, int error, char *str)
+void	clean_base(t_base *base, int error, char *str)
 {
 	int		i;
 
@@ -42,7 +42,6 @@ int	clean_base(t_base *base, int error, char *str)
 		free(base);
 	}
 	ft_putstr(str);
-	return (1);
 }
 
 int	main(int argc, char **argv)
