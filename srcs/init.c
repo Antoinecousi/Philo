@@ -6,7 +6,7 @@
 /*   By: acousini <acousini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 18:56:30 by acousini          #+#    #+#             */
-/*   Updated: 2022/02/03 14:53:09 by acousini         ###   ########.fr       */
+/*   Updated: 2022/02/03 19:42:34 by acousini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,18 +80,20 @@ int	fill_base(t_base *base, char **str, int i)
 		return (1);
 	if (pthread_mutex_init(&base->die_lock, NULL) != 0)
 		return (1);
-	base->nb_phils = ft_atoi(str[0]);
 	base->is_dead = 0;
+	base->malloced = 0;
+	base->running = 0;
+	base->nb_phils = ft_atoi(str[0]);
 	if (base->nb_phils < 1)
 		return (clean_base(base, -2, "Wrong number of philosophers. Exit\n"));
 	base->ttd = ft_atoi(str[1]);
-	if (base->ttd <= 0)
+	if (base->ttd <= 59)
 		return (clean_base(base, -2, "Wrong value of time to die. Exit\n"));
 	base->tte = ft_atoi(str[2]);
-	if (base->tte <= 0)
+	if (base->tte <= 59)
 		return (clean_base(base, -2, "Wrong value of time to eat. Exit\n"));
 	base->tts = ft_atoi(str[3]);
-	if (base->tts <= 0)
+	if (base->tts <= 59)
 		return (clean_base(base, -2, "Wrong value of time to sleep. Exit\n"));
 	if (i == 6)
 	{
@@ -103,6 +105,7 @@ int	fill_base(t_base *base, char **str, int i)
 		base->nb_eats = -1;
 	base->running = 1;
 	base->printed_death = 0;
+	printf("%d is max eat\n", base->nb_eats);
 	if (init_philosophers(base))
 		return (clean_base(base, -2, "Problem init phils. Exit\n"));
 	return (0);

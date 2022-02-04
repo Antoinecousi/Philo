@@ -6,7 +6,7 @@
 /*   By: acousini <acousini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 11:08:50 by acousini          #+#    #+#             */
-/*   Updated: 2022/02/03 14:58:57 by acousini         ###   ########.fr       */
+/*   Updated: 2022/02/03 19:41:06 by acousini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,12 @@ void	mutex_screen(t_philo *philo, char *str)
 
 void	write_dead(t_philo *philo)
 {
-	// if (philo->base->printed_death == 1)
-	// 	return ;
 	pthread_mutex_lock(&philo->base->die_lock);
 	pthread_mutex_lock(&philo->base->screen_lock);
 	if ((is_dead(philo) == 0 || is_running(philo) == 0)
 		&& philo->base->printed_death == 0)
 	{
 		output_state(philo, "died\n");
-		printf("ttd is %llu last meal is %llu start is %llu \n", philo->base->ttd, philo->last_meal, philo->base->start);
 		philo->base->printed_death = 1;
 	}
 	pthread_mutex_unlock(&philo->base->die_lock);

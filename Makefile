@@ -17,7 +17,7 @@ HEAD			=	-I include
 
 CC				=	clang
 
-CFLAGS			=	-Wall -Werror -Wextra -g3 #-fsanitize=thread
+CFLAGS			=	-Wall -Werror -Wextra #-g3 -fsanitize=address
 
 .c.o			:
 					${CC} ${CFLAGS} ${HEAD} -c $< -o ${<:.c=.o}

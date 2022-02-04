@@ -6,7 +6,7 @@
 /*   By: acousini <acousini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 15:06:31 by acousini          #+#    #+#             */
-/*   Updated: 2022/02/03 12:43:13 by acousini         ###   ########.fr       */
+/*   Updated: 2022/02/04 16:03:26 by acousini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@ typedef struct s_philo
 
 typedef struct s_base
 {
-	unsigned long long int	tte;
+	int						tte;
 	int						is_dead;
-	unsigned long long int	tts;
-	unsigned long long int	ttd;
+	int						tts;
+	int						ttd;
 	int						nb_phils;
 	int						printed_death;
 	int						nb_eats;
