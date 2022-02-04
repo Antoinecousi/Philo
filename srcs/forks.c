@@ -6,7 +6,7 @@
 /*   By: acousini <acousini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 12:37:34 by acousini          #+#    #+#             */
-/*   Updated: 2022/02/04 16:09:44 by acousini         ###   ########.fr       */
+/*   Updated: 2022/02/04 21:03:09 by acousini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,48 +27,35 @@ int	init_fork(t_base *base, int i)
 	if (i == base->nb_phils - 1)
 		base->philosophers[i].right_fork = base->philosophers[0].left_fork;
 	base->inited += 1;
-	printf("FORK NUMBER %d INITIADED\n", i + 1);
 	return (0);
 }
 
 int	take_fork(pthread_mutex_t *fork, t_philo *philo)
 {
-	if (is_dead(philo) == 0 || is_running(philo) == 0)
-		return (0);
 	pthread_mutex_lock(fork);
 	mutex_screen(philo, "has taken a fork\n");
 	return (1);
 }
 
-int	take_forks(t_philo *philo)
+int	philo_start_eat(t_philo *philo)
 {
 	if ((philo->id + 1) % 2 == 0)
 	{
 		take_fork(philo->left_fork, philo);
-		pthread_mutex_lock(philo->left_fork);
-		mutex_screen(philo, "has taken a fork\n");
-		pthread_mutex_lock(philo->right_fork);
-		mutex_screen(philo, "has taken a fork\n");
-		pthread_mutex_lock(&philo->meal_check);
-		philo->last_meal = time_from_beginning(philo->base->start);
-		philo->meals_count++;
-		pthread_mutex_unlock(&philo->meal_check);
-		mutex_screen(philo, "is eating\n");
-		wait_in_ms(philo->base->tte);
+		take_fork(philo->right_fork, philo);
 	}
 	else
 	{
-		pthread_mutex_lock(philo->right_fork);
-		mutex_screen(philo, "has taken a fork\n");
-		pthread_mutex_lock(philo->left_fork);
-		mutex_screen(philo, "has taken a fork\n");
-		pthread_mutex_lock(&philo->meal_check);
-		philo->meals_count++;
-		philo->last_meal = time_from_beginning(philo->base->start);
-		pthread_mutex_unlock(&philo->meal_check);
-		mutex_screen(philo, "is eating\n");
-		wait_in_ms(philo->base->tte);
+		take_fork(philo->right_fork, philo);
+		take_fork(philo->left_fork, philo);
 	}
+	pthread_mutex_lock(&philo->meal_check);
+	philo->meals_count++;
+	philo->last_meal = time_from_beginning(philo->base->start);
+	pthread_mutex_unlock(&philo->meal_check);
+	mutex_screen(philo, "is eating\n");
+	wait_in_ms(philo->base->tte);
+	unlock_forks(philo);
 	return (1);
 }
 
@@ -76,12 +63,12 @@ void	unlock_forks(t_philo *philo)
 {
 	if ((philo->id + 1) % 2 == 0)
 	{
-		pthread_mutex_unlock(philo->left_fork);
 		pthread_mutex_unlock(philo->right_fork);
+		pthread_mutex_unlock(philo->left_fork);
 	}
 	else
 	{
-		pthread_mutex_unlock(philo->right_fork);
 		pthread_mutex_unlock(philo->left_fork);
+		pthread_mutex_unlock(philo->right_fork);
 	}
 }

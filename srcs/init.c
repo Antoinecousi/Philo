@@ -6,7 +6,7 @@
 /*   By: acousini <acousini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 18:56:30 by acousini          #+#    #+#             */
-/*   Updated: 2022/02/03 19:42:34 by acousini         ###   ########.fr       */
+/*   Updated: 2022/02/04 21:12:46 by acousini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,10 @@ int	fill_philo(t_base *base)
 	return (0);
 }
 
-int	init_philosophers(t_base *base)
+int	init_philosophers(t_base *base, int i)
 {
 	t_philo	*phil;
-	int		i;
 
-	i = -1;
 	phil = malloc(sizeof(t_philo) * base->nb_phils);
 	if (!phil)
 		return (1);
@@ -72,7 +70,7 @@ int	init_philosophers(t_base *base)
 	return (0);
 }
 
-int	fill_base(t_base *base, char **str, int i)
+int	ft_fill_mutexes(t_base *base)
 {
 	if (pthread_mutex_init(&base->running_check, NULL) != 0)
 		return (1);
@@ -82,7 +80,15 @@ int	fill_base(t_base *base, char **str, int i)
 		return (1);
 	base->is_dead = 0;
 	base->malloced = 0;
-	base->running = 0;
+	base->printed_death = 0;
+	base->running = 1;
+	return (0);
+}
+
+void	fill_base(t_base *base, char **str, int i)
+{
+	if (ft_fill_mutexes(base))
+		return (clean_base(base, -2, "Failed init mutexes. Exit\n"));
 	base->nb_phils = ft_atoi(str[0]);
 	if (base->nb_phils < 1)
 		return (clean_base(base, -2, "Wrong number of philosophers. Exit\n"));
@@ -103,10 +109,7 @@ int	fill_base(t_base *base, char **str, int i)
 	}
 	else
 		base->nb_eats = -1;
-	base->running = 1;
-	base->printed_death = 0;
-	printf("%d is max eat\n", base->nb_eats);
-	if (init_philosophers(base))
+	if (init_philosophers(base, -1))
 		return (clean_base(base, -2, "Problem init phils. Exit\n"));
-	return (0);
+	clean_base(base, 2, "\n");
 }

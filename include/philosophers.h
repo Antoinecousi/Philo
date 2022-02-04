@@ -6,7 +6,7 @@
 /*   By: acousini <acousini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 15:06:31 by acousini          #+#    #+#             */
-/*   Updated: 2022/02/04 16:03:26 by acousini         ###   ########.fr       */
+/*   Updated: 2022/02/04 21:12:27 by acousini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,16 +57,19 @@ typedef struct s_base
 	t_philo					*philosophers;
 }				t_base;
 
-// actions
-void					*routine(void *philosopher);
-void					philo_start_eat(t_philo *philo);
-void					philo_start_thinking(t_philo *philo);
-void					philo_start_sleep(t_philo *philo);
-void					unlock_forks(t_philo *philo);
-int						take_forks(t_philo *philo);
+// conditions 
+int						has_eaten(t_philo *philo);
 int						can_eat(t_philo *philo);
 int						is_running(t_philo *philo);
 int						is_dead(t_philo *philo);
+int						has_eaten_enough(t_philo *philo);
+
+// actions
+void					*routine(void *philosopher);
+void					philo_start_thinking(t_philo *philo);
+void					philo_start_sleep(t_philo *philo);
+void					unlock_forks(t_philo *philo);
+int						philo_start_eat(t_philo *philo);
 
 // output
 void					write_dead(t_philo *philo);
@@ -88,9 +91,8 @@ void					sleep_time(int time);
 int						init_each_philo(t_philo *philo, int id, t_base *base);
 int						init_fork(t_base *base, int i);
 int						fill_philo(t_base *base);
-int						init_philosopher(t_base *base);
-int						init_philosophers(t_base *base);
-int						fill_base(t_base *base, char **str, int i);
+int						init_philosophers(t_base *base, int i);
+void					fill_base(t_base *base, char **str, int i);
 
 // miscellaneous
 int						clean_base(t_base *base, int error, char *str);
