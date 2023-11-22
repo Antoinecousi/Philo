@@ -6,7 +6,7 @@
 /*   By: acousini <acousini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 19:07:32 by acousini          #+#    #+#             */
-/*   Updated: 2022/02/03 16:38:49 by acousini         ###   ########.fr       */
+/*   Updated: 2022/02/06 20:33:32 by acousini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@ void	philo_start_thinking(t_philo *philo)
 		mutex_screen(philo, "is thinking\n");
 	else
 		write_dead(philo);
+	if (philo->base->nb_phils % 2 == 1)
+		wait_in_ms((philo->base->ttd - philo->base->tts
+				- philo->base->tte) / 2);
 }
 
 void	philo_start_sleep(t_philo *philo)

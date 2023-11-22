@@ -12,9 +12,23 @@
 
 #include "philosophers.h"
 
-unsigned long long int	ft_atoi(const char *str)
+int	is_not_digit(const char *str)
 {
-	unsigned long long int	atoi;
+	int		i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] < '0' || str[i] > '9')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+long long int	ft_atoi(const char *str)
+{
+	long long int			atoi;
 	int						neg;
 
 	neg = 1;
@@ -27,6 +41,8 @@ unsigned long long int	ft_atoi(const char *str)
 			neg *= -1;
 		str++;
 	}
+	if (is_not_digit(str))
+		return (-1);
 	atoi = 0;
 	while (*str >= '0' && *str <= '9')
 	{
@@ -37,16 +53,6 @@ unsigned long long int	ft_atoi(const char *str)
 	if (atoi == 469762049)
 		return (atoi * neg - 1);
 	return (atoi * neg);
-}
-
-int	ft_strlen(char *str)
-{
-	int		i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
 }
 
 void	ft_putchar(char c)

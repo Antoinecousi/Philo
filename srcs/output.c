@@ -6,7 +6,7 @@
 /*   By: acousini <acousini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 11:08:50 by acousini          #+#    #+#             */
-/*   Updated: 2022/02/03 19:41:06 by acousini         ###   ########.fr       */
+/*   Updated: 2022/02/06 20:35:25 by acousini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,8 @@
 
 void	output_state(t_philo *philo, char *str)
 {
-	ft_putnbr(time_from_beginning(philo->base->start));
-	ft_putstr("ms -- Philosopher ");
-	ft_putnbr(philo->id);
-	ft_putchar(' ');
-	ft_putstr(str);
+	printf("%lldms  Philosopher %d %s",
+		time_from_beginning(philo->base->start), philo->id, str);
 }
 
 void	mutex_screen(t_philo *philo, char *str)
